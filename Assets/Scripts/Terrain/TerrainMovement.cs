@@ -5,6 +5,7 @@ using UnityEngine;
 public class TerrainMovement : MonoBehaviour
 {
     [SerializeField] private Vector3 cameraOffset;
+    [SerializeField] private Vector3 updateOffset;
     private GameObject terrainGenerator;
     private GameObject cameraUpdate;
     private GameObject destructor;
@@ -27,7 +28,7 @@ public class TerrainMovement : MonoBehaviour
 
         transform.position = Vector2.MoveTowards(transform.position, destructor.transform.position, speed * Time.deltaTime);
 
-        if (Vector2.Distance(cameraUpdate.transform.position, transform.position) < 0.1f)
+        if (Vector2.Distance(cameraUpdate.transform.position + updateOffset, transform.position) < 0.1f)
         {
             terrainGenerator.GetComponent<TerrainGenerator>().UpdateCamera(cameraOffset);
         }

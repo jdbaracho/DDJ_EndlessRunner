@@ -12,6 +12,7 @@ public class TerrainMovement : MonoBehaviour
     private GameObject destructor;
     private GameObject item;
     private float speed;
+    private float speedIncreaseRate;
     private bool canCreate;
 
     // Start is called before the first frame update
@@ -23,6 +24,8 @@ public class TerrainMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        speed += speedIncreaseRate * Time.deltaTime;
+
         if (Vector2.Distance(destructor.transform.position, transform.position) < 0.1f)
         {
             Destroy(this.gameObject);
@@ -42,12 +45,13 @@ public class TerrainMovement : MonoBehaviour
         }
     }
 
-    public void Initialize(GameObject terrainGenerator, GameObject destructor, GameObject update, float speed)
+    public void Initialize(GameObject terrainGenerator, GameObject destructor, GameObject update, float speed, float speedIncreaseRate)
     {
         this.terrainGenerator = terrainGenerator;
         this.destructor = destructor;
         this.update = update;
         this.speed = speed;
+        this.speedIncreaseRate = speedIncreaseRate;
     }
 
     public Vector3 GetCameraOffset()

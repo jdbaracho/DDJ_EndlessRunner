@@ -731,6 +731,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   changeRate: 0.1
   speed: 4
+  speedIncreaseRate: 0.01
   speedRatio: 2
   camera: {fileID: 519420028}
   update: {fileID: 218036176}

@@ -24,6 +24,7 @@ public class TerrainGenerator : MonoBehaviour
     }
     [SerializeField] private float changeRate;
     [SerializeField] private float speed;
+    [SerializeField] private float speedIncreaseRate;
     [SerializeField] private float speedRatio;
     [SerializeField] private GameObject camera;
     [SerializeField] private GameObject update;
@@ -54,7 +55,7 @@ public class TerrainGenerator : MonoBehaviour
         random = new System.Random();
 
         terrain = Instantiate(terrains[(int)currentTerrain], transform.position, transform.rotation);
-        terrain.GetComponent<TerrainMovement>().Initialize(this.gameObject, destructor, update, speed);
+        terrain.GetComponent<TerrainMovement>().Initialize(this.gameObject, destructor, update, speed, speedIncreaseRate);
 
         cameraDefaultPosition = camera.transform.position;
         camera.transform.position += terrain.GetComponent<TerrainMovement>().GetCameraOffset();
@@ -64,6 +65,8 @@ public class TerrainGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        speed += speedIncreaseRate * Time.deltaTime;
+        
         if (!isTransitioning)
         {
             itemTimer += Time.deltaTime;
@@ -77,7 +80,7 @@ public class TerrainGenerator : MonoBehaviour
             var position = transform.position + terrains[(int)currentTerrain].GetComponent<TerrainMovement>().GetItemLocation() + itemSpawn;
             Destroy(item);
             item = Instantiate(items[(int)nextTerrain], position, transform.rotation);
-            item.GetComponent<ItemMovement>().Initialize(speed);
+            item.GetComponent<ItemMovement>().Initialize(speed, speedIncreaseRate);
         }
 
         camera.transform.position = Vector3.MoveTowards(camera.transform.position, cameraNextPosition, speed/speedRatio * Time.deltaTime);
@@ -135,7 +138,7 @@ public class TerrainGenerator : MonoBehaviour
             transition = Transition.None;
         }
         terrain = Instantiate(next, generator.transform.position, transform.rotation);
-        terrain.GetComponent<TerrainMovement>().Initialize(this.gameObject, destructor, update, speed);
+        terrain.GetComponent<TerrainMovement>().Initialize(this.gameObject, destructor, update, speed, speedIncreaseRate);
     }
 
     public void UpdateCamera(Vector3 offset)

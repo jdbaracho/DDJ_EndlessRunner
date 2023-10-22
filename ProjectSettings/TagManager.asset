@@ -6,16 +6,18 @@ TagManager:
   tags:
   - Generator
   - Destructor
+  - Item
+  - Transition
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Player
+  - Background
   - Water
   - UI
   - Forest
   - Ocean
-  - 
+  - Desert
   - 
   - 
   - 
@@ -42,4 +44,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Items
+    uniqueID: 913420195
+    locked: 0
+  - name: Player
+    uniqueID: 1282882591
     locked: 0

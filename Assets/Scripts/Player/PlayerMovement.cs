@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -67,12 +68,24 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    public void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Item"))
         {
             Destroy(collision.gameObject);
             terrainGenerator.GetComponent<TerrainGenerator>().PickUpItem();
+        }
+        if (collision.gameObject.CompareTag("Obstacle"))
+        {
+            SceneManager.LoadScene("Menu");
+        }
+    }
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Danger"))
+        {
+            SceneManager.LoadScene("Menu");
         }
     }
 

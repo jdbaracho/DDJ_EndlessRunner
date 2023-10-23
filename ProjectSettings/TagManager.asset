@@ -8,6 +8,7 @@ TagManager:
   - Destructor
   - Item
   - Transition
+  - Danger
   - Obstacle
   layers:
   - Default

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7198323873261680861}
   m_Layer: 8
   m_Name: desert
-  m_TagString: Untagged
+  m_TagString: Danger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -229,6 +229,10 @@ MonoBehaviour:
   cameraOffset: {x: 0, y: 0, z: 0}
   cameraUpdateOffset: {x: 10, y: 0, z: 0}
   itemLocation: {x: 0, y: 0, z: 0}
+  obstacleMinX: 0
+  obstacleMaxX: 0
+  obstacleMinY: 0
+  obstacleMaxY: 0
 --- !u!50 &-5256779295078895447
 Rigidbody2D:
   serializedVersion: 4

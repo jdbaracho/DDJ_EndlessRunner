@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class TerrainGenerator : MonoBehaviour
 {
@@ -31,6 +33,9 @@ public class TerrainGenerator : MonoBehaviour
     [SerializeField] private GameObject generator;
     [SerializeField] private GameObject destructor;
     [SerializeField] private Vector3 itemSpawn;
+    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI multiplierText;
+    [SerializeField] private GameObject deathScreen;
     [SerializeField] private GameObject[] items;
     [SerializeField] private GameObject[] terrains;
     [SerializeField] private GameObject[] transitions;
@@ -44,6 +49,8 @@ public class TerrainGenerator : MonoBehaviour
     Terrain nextTerrain;
     Transition transition;
     System.Random random;
+    float score;
+    int multiplier;
 
     // Start is called before the first frame update
     void Start()
@@ -53,6 +60,8 @@ public class TerrainGenerator : MonoBehaviour
         currentTerrain = Terrain.Forest;
         transition = Transition.None;
         random = new System.Random();
+        score = 0.0f;
+        multiplier = 1;
 
         terrain = Instantiate(terrains[(int)currentTerrain], transform.position, transform.rotation);
         terrain.GetComponent<TerrainMovement>().Initialize(this.gameObject, destructor, update, speed, speedIncreaseRate);
@@ -67,6 +76,7 @@ public class TerrainGenerator : MonoBehaviour
     void Update()
     {
         speed += speedIncreaseRate * Time.deltaTime;
+        score += speed * Time.deltaTime * multiplier;
 
         if (!isTransitioning)
         {
@@ -79,12 +89,16 @@ public class TerrainGenerator : MonoBehaviour
             nextTerrain = RandomTerrain();
 
             var position = transform.position + terrains[(int)currentTerrain].GetComponent<TerrainMovement>().GetItemLocation() + itemSpawn;
+            if (item != null) multiplier = 1;
             Destroy(item);
             item = Instantiate(items[(int)nextTerrain], position, transform.rotation);
             item.GetComponent<ItemMovement>().Initialize(speed, speedIncreaseRate);
         }
 
         camera.transform.position = Vector3.MoveTowards(camera.transform.position, cameraNextPosition, speed/speedRatio * Time.deltaTime);
+        
+        scoreText.text = "Score: " + (int)score;
+        multiplierText.text = "x" + multiplier;
     }
 
     Terrain RandomTerrain()
@@ -151,5 +165,11 @@ public class TerrainGenerator : MonoBehaviour
         transition = NextTransition();
         currentTerrain = nextTerrain;
         isTransitioning = true;
+        multiplier *= 2;
+    }
+
+    public void Die()
+    {
+        SceneManager.LoadScene("Menu");
     }
 }

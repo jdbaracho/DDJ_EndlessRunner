@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -31,7 +30,6 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // dirX = Input.GetAxisRaw("Horizontal");
         rb.velocity = new Vector3(Input.GetAxisRaw("Horizontal") * movespeed, rb.velocity.y, 0);
 
         if (IsGrounded() && Input.GetButtonDown("Jump"))
@@ -77,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("Obstacle"))
         {
-            SceneManager.LoadScene("Menu");
+            terrainGenerator.GetComponent<TerrainGenerator>().Die();
         }
     }
 
@@ -85,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Danger"))
         {
-            SceneManager.LoadScene("Menu");
+            terrainGenerator.GetComponent<TerrainGenerator>().Die();
         }
     }
 

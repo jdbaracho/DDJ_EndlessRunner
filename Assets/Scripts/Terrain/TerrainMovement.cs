@@ -33,18 +33,18 @@ public class TerrainMovement : MonoBehaviour
     {
         speed += speedIncreaseRate * Time.deltaTime;
 
-        if (Vector2.Distance(destructor.transform.position, transform.position) < 0.1f)
+        if (transform.position.x <= destructor.transform.position.x)
         {
             Destroy(this.gameObject);
         }
 
-        if (canCreate && Vector2.Distance(update.transform.position, transform.position) < 0.1f)
+        if (canCreate && transform.position.x <= update.transform.position.x)
         {
             canCreate = false;
             terrainGenerator.GetComponent<TerrainGenerator>().GenerateTerrain(gameObject.CompareTag("Transition"));
         }
 
-        transform.position = Vector2.MoveTowards(transform.position, destructor.transform.position, speed * Time.deltaTime);
+        transform.position = new Vector3(transform.position.x - speed * Time.deltaTime, transform.position.y, transform.position.z);
 
         if (Vector2.Distance(update.transform.position + cameraUpdateOffset, transform.position) < 0.1f)
         {

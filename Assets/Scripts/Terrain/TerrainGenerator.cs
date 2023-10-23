@@ -56,6 +56,7 @@ public class TerrainGenerator : MonoBehaviour
 
         terrain = Instantiate(terrains[(int)currentTerrain], transform.position, transform.rotation);
         terrain.GetComponent<TerrainMovement>().Initialize(this.gameObject, destructor, update, speed, speedIncreaseRate);
+        terrain.transform.GetChild(0).gameObject.SetActive(false);
 
         cameraDefaultPosition = camera.transform.position;
         camera.transform.position += terrain.GetComponent<TerrainMovement>().GetCameraOffset();
@@ -66,7 +67,7 @@ public class TerrainGenerator : MonoBehaviour
     void Update()
     {
         speed += speedIncreaseRate * Time.deltaTime;
-        
+
         if (!isTransitioning)
         {
             itemTimer += Time.deltaTime;
@@ -90,7 +91,6 @@ public class TerrainGenerator : MonoBehaviour
     {
         var v = Enum.GetValues(typeof(Terrain));
         var i = random.Next(terrains.Length);
-        Debug.Log(i);
         if (currentTerrain == (Terrain)v.GetValue(i))
         {
             i++;

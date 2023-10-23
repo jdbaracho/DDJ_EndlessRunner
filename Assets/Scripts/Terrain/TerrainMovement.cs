@@ -7,6 +7,10 @@ public class TerrainMovement : MonoBehaviour
     [SerializeField] private Vector3 cameraOffset;
     [SerializeField] private Vector3 cameraUpdateOffset;
     [SerializeField] private Vector3 itemLocation;
+    [SerializeField] private float obstacleMinX;
+    [SerializeField] private float obstacleMaxX;
+    [SerializeField] private float obstacleMinY;
+    [SerializeField] private float obstacleMaxY;
     private GameObject terrainGenerator;
     private GameObject update;
     private GameObject destructor;
@@ -14,11 +18,14 @@ public class TerrainMovement : MonoBehaviour
     private float speed;
     private float speedIncreaseRate;
     private bool canCreate;
+    private System.Random random;
 
     // Start is called before the first frame update
     void Start()
     {
         canCreate = true;
+        random = new System.Random();
+        CreateObstacle();
     }
 
     // Update is called once per frame
@@ -52,6 +59,17 @@ public class TerrainMovement : MonoBehaviour
         this.update = update;
         this.speed = speed;
         this.speedIncreaseRate = speedIncreaseRate;
+    }
+
+    void CreateObstacle()
+    {
+        if (transform.childCount <= 0 || !transform.GetChild(0).gameObject.CompareTag("Obstacle")) return;
+
+        var x = random.NextDouble();
+        x = (x * (obstacleMaxX - obstacleMinX)) + obstacleMinX;
+        var y = random.NextDouble();
+        y = (y * (obstacleMaxY - obstacleMinY)) + obstacleMinY;
+        transform.GetChild(0).gameObject.transform.position = transform.position + new Vector3((float)x, (float)y, transform.position.z);
     }
 
     public Vector3 GetCameraOffset()

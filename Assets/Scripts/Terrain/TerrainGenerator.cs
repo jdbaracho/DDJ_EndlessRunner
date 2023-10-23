@@ -35,6 +35,7 @@ public class TerrainGenerator : MonoBehaviour
     [SerializeField] private Vector3 itemSpawn;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI multiplierText;
+    [SerializeField] private TextMeshProUGUI finalScoreText;
     [SerializeField] private GameObject deathScreen;
     [SerializeField] private GameObject[] items;
     [SerializeField] private GameObject[] terrains;
@@ -170,6 +171,9 @@ public class TerrainGenerator : MonoBehaviour
 
     public void Die()
     {
-        SceneManager.LoadScene("Menu");
+        finalScoreText.text = "Score: " + (int)score;
+        deathScreen.SetActive(true);
+        speed = 0;
+        speedIncreaseRate = 0;
     }
 }

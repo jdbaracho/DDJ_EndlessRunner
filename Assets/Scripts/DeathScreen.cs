@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainMenu : MonoBehaviour
+public class DeathScreen : MonoBehaviour
 {
-    public void PlayGame ()
+    public void RestartGame ()
     {
         SceneManager.LoadScene("MainScene");
-
     }
+
     public void QuitGame ()
     {
         Debug.Log("Quit");
